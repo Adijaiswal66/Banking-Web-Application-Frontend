@@ -236,9 +236,9 @@ function SignupForm() {
               value={data.userEmail}
               onChange={(e) => handleChange(e, "userEmail")}
             />
-            {/* <div id="userEmail" className="form-text d-flex">
+            <div id="userEmail" className="form-text d-flex">
               We'll never share your email with anyone else.
-            </div> */}
+            </div>
           </div>
 
           <div className="mb-1">
