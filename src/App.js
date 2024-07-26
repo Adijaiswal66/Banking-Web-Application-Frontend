@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import CustomerDetails from "./components/CustomerDetails";
@@ -7,10 +6,12 @@ import LoginForm from "./components/LoginForm";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
 import Base from "./components/Base";
 import SignupForm from "./components/SignupForm";
-
+import PrivateRoute from "./components/PrivateRoute";
+import ProfileInfo from "./pages/customer-routes/ProfileInfo";
+import CustomerDashBoard from "./pages/customer-routes/CustomerDashBoard";
+import Transactions from "./components/Transactions";
 function App() {
   return (
     <BrowserRouter>
@@ -20,6 +21,11 @@ function App() {
         <Route path="/home" element={<Base />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
+        <Route path="/customer" element={<PrivateRoute />}>
+          <Route path="dashboard" element={<CustomerDashBoard />} />
+          <Route path="profile" element={<ProfileInfo />} />
+          <Route path="transactions" element={<Transactions />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

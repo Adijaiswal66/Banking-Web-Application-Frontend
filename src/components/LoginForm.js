@@ -3,8 +3,12 @@ import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./Navbar";
 import { loginUser } from "../services/user-service";
+import { doLogin } from "../auth";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const navigate = useNavigate();
+
   const [loginDetail, setLoginDetail] = useState({
     email: "",
     password: "",
@@ -39,6 +43,10 @@ function LoginForm() {
     loginUser(loginDetail)
       .then((jwtTokenData) => {
         console.log(jwtTokenData);
+        doLogin(jwtTokenData, () => {
+          console.log("data is saved to localstorage");
+          navigate("/customer/dashboard");
+        });
         if (jwtTokenData.token) {
           toast.success("User logged in successfully", {
             position: "bottom-center",

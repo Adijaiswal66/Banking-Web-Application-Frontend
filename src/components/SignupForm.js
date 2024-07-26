@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 import { Bounce, toast } from "react-toastify";
 import { signUp } from "../services/user-service";
 function SignupForm() {
