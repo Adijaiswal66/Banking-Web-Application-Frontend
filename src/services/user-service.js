@@ -1,4 +1,6 @@
+import { getCurrentUserDetail } from "../auth";
 import { myAxios } from "./Helper";
+import axios from "axios";
 
 export const signUp = (user) => {
   return myAxios
@@ -11,3 +13,4 @@ export const loginUser = (loginDetail) => {
     .post("/auth/login", loginDetail)
     .then((response) => response.data);
 };
+

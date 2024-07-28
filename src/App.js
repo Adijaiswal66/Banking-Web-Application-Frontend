@@ -11,7 +11,7 @@ import SignupForm from "./components/SignupForm";
 import PrivateRoute from "./components/PrivateRoute";
 import ProfileInfo from "./pages/customer-routes/ProfileInfo";
 import CustomerDashBoard from "./pages/customer-routes/CustomerDashBoard";
-import Transactions from "./components/Transactions";
+import TransactionsDetails from "./components/TransactionsDetails";
 function App() {
   return (
     <BrowserRouter>
@@ -24,7 +24,7 @@ function App() {
         <Route path="/customer" element={<PrivateRoute />}>
           <Route path="dashboard" element={<CustomerDashBoard />} />
           <Route path="profile" element={<ProfileInfo />} />
-          <Route path="transactions" element={<Transactions />} />
+          <Route path="transactions" element={<TransactionsDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>

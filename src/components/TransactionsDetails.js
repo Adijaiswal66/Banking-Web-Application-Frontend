@@ -1,70 +1,72 @@
 import React, { useEffect, useState } from "react";
 import Base from "./Base";
-import { getCurrentUserDetail, isLoggedIn } from "../auth";
-import { base_url } from "../services/Helper";
+import TransactionList from "./TransactionList";
 import axios from "axios";
-import BeneficiaryList from "./BeneficiaryList";
+import { getCurrentUserDetail } from "../auth";
+import { base_url } from "../services/Helper";
 
-function BeneficiaryDetails() {
-  const [id, setId] = useState(0);
-  const [beneficiary, setBeneficiary] = useState([]);
+function TransactionsDetails() {
+  const [transaction, setTransaction] = useState([]);
 
   useEffect(() => {
-    getAllBeneficiary();
+    getAlltransactionsById();
   }, []);
 
-  const getAllBeneficiary = async () => {
+  const getAlltransactionsById = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${
       getCurrentUserDetail().token
     }`;
 
     await axios
-      .get(`${base_url}/user/beneficiary/${getCurrentUserDetail().user.userId}`)
+      .get(
+        `${base_url}/user/customer/transaction/${getCurrentUserDetail().user.userId}`
+      )
       .then((response) => {
         let data = response.data;
-        setBeneficiary(data);
+        setTransaction(data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
   return (
-    <div>
+    <Base>
+      <div>
       <div className="container">
-        <h3 className="my-3">Your Beneficiaries: </h3>
+        <h3 className="my-3">Transaction History: </h3>
         <div className="row">
           <table className="table table-striped">
             <thead>
               <tr>
                 <th className="text-center" scope="col">
-                  id
+                 Txn. id
                 </th>
                 <th className="text-center" scope="col">
-                  First Name
+                  Source Account Number
                 </th>
                 <th className="text-center" scope="col">
-                  Last Name
+                  Target Account Number
                 </th>
                 <th className="text-center" scope="col">
-                  Account Number
+                  Transferred Amount
                 </th>
                 <th className="text-center" scope="col">
-                  Bank Name
+                  Transaction Date & Time
                 </th>
                 <th className="text-center" scope="col">
-                  Transfer Limit
+                  Transaction Type
                 </th>
               </tr>
             </thead>
             <tbody>
-              <BeneficiaryList beneficiary={beneficiary}  />
+              <TransactionList transaction={transaction} />
             </tbody>
           </table>
         </div>
       </div>
     </div>
+    </Base>
   );
 }
 
-export default BeneficiaryDetails;
+export default TransactionsDetails;

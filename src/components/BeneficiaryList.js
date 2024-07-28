@@ -1,6 +1,7 @@
 import React from "react";
 
 const BeneficiaryList = ({ beneficiary }) => {
+  let count = 0;
   return (
     <>
       {beneficiary.map((benef) => {
@@ -12,10 +13,14 @@ const BeneficiaryList = ({ beneficiary }) => {
           bankName,
           maxTransferLimit,
         } = benef;
+        count += 1;
 
         return (
           <tr key={beneficiaryId}>
-            <th scope="row">{beneficiaryId}</th>
+            <th className="text-center" scope="row">
+              {console.log("Count inside list " + count)}
+              {count}
+            </th>
             <td className="text-center">{firstName}</td>
             <td className="text-center">{lastName}</td>
             <td className="text-center">{accountNumber}</td>
@@ -24,15 +29,6 @@ const BeneficiaryList = ({ beneficiary }) => {
           </tr>
         );
       })}
-
-      {/* <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>{beneficiary}</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-      </tbody> */}
     </>
   );
 };

@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import { doLogout, getCurrentUserDetail, isLoggedIn } from "../auth";
 import { Bounce, toast } from "react-toastify";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -52,6 +55,9 @@ function Navbar() {
           <div className="container-fluid">
             <Link className="navbar-brand" to="/home">
               ApnaBank
+              <AccountBalanceOutlinedIcon
+                style={{ marginLeft: "3px", marginTop: "-5px" }}
+              />
             </Link>
             <button
               className="navbar-toggler"
@@ -82,13 +88,17 @@ function Navbar() {
 
               <form className="d-flex" role="search">
                 <Link
-                  className="btn btn-outline-success mx-2"
+                  className="btn btn-outline-success mx-2 "
                   type="submit"
                   to="/login"
                   onClick={handleLoginButton()}
                 >
                   Login
+                  <LoginOutlinedIcon
+                    style={{ marginLeft: "3px", marginTop: "-5px" }}
+                  />
                 </Link>
+
                 <Link
                   className="btn btn-outline-success"
                   type="submit"
@@ -110,6 +120,9 @@ function Navbar() {
           <div className="container-fluid">
             <Link className="navbar-brand" to="/home">
               ApnaBank
+              <AccountBalanceOutlinedIcon
+                style={{ marginLeft: "3px", marginTop: "-5px" }}
+              />
             </Link>
             <button
               className="navbar-toggler"
@@ -151,27 +164,31 @@ function Navbar() {
                     Transactions
                   </Link>
                 </li>
-                {/* <li className="nav-item dropdown">
-            <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </Link>
-            <ul className="dropdown-menu">
-              <li><Link className="dropdown-item" to="#">Action</Link></li>
-              <li><Link className="dropdown-item" to="#">Another action</Link></li>
-              <li><hr className="dropdown-divider"/></li>
-              <li><Link className="dropdown-item" to="#">Something else here</Link></li>
-            </ul>
-          </li> */}
               </ul>
               <ul className="navbar-nav mb-2 mb-lg-0">
                 <li className="nav-item">
                   <Link
                     className="nav-link active"
                     aria-current="page"
-                    to="/ProfileInfo"
+                    to="/customer/profile"
                   >
                     {user.user.firstName + " "}
                     {user.user.lastName}
+                  </Link>
+                </li>
+                <li className="nav-item" style={{ marginRight: "5px" }}>
+                  <Link to="/customer/profile">
+                    <lord-icon
+                      src="https://cdn.lordicon.com/fmasbomy.json"
+                      trigger="hover"
+                      state="hover-looking-around"
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        marginLeft: "-5px",
+                        marginTop: "3px",
+                      }}
+                    ></lord-icon>
                   </Link>
                 </li>
               </ul>
@@ -185,11 +202,14 @@ function Navbar() {
 
                 <Link
                   onClick={logOut}
-                  className="btn btn-outline-success mx-2"
+                  className="btn btn-outline-danger mx-2"
                   type="submit"
                   to="/home"
                 >
                   Logout
+                  <LogoutIcon
+                    style={{ marginLeft: "3px", marginTop: "-5px" }}
+                  />
                 </Link>
               </form>
             </div>
