@@ -1,17 +1,14 @@
-import "./App.css";
-import Navbar from "./components/Navbar";
-import CustomerDetails from "./components/CustomerDetails";
-import CustomerList from "./components/CustomerList";
-import LoginForm from "./components/LoginForm";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
 import Base from "./components/Base";
-import SignupForm from "./components/SignupForm";
+import LoginForm from "./components/LoginForm";
 import PrivateRoute from "./components/PrivateRoute";
-import ProfileInfo from "./pages/customer-routes/ProfileInfo";
-import CustomerDashBoard from "./pages/customer-routes/CustomerDashBoard";
+import SignupForm from "./components/SignupForm";
 import TransactionsDetails from "./components/TransactionsDetails";
+import CustomerDashBoard from "./pages/customer-routes/CustomerDashBoard";
+import ProfileInfo from "./pages/customer-routes/ProfileInfo";
 function App() {
   return (
     <BrowserRouter>

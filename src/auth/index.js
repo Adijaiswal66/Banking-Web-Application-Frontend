@@ -5,10 +5,10 @@ export const doLogin = (data, next) => {
 
 export const isLoggedIn = () => {
   let data = localStorage.getItem("data");
-  if (data != null) {
-    return true;
-  } else {
+  if (data === null || data === "Credentials Invalid !!") {
     return false;
+  } else {
+    return true;
   }
 };
 

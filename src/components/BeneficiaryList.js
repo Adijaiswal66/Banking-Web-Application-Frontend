@@ -1,7 +1,9 @@
 import React from "react";
 
 const BeneficiaryList = ({ beneficiary }) => {
+
   let count = 0;
+
   return (
     <>
       {beneficiary.map((benef) => {
@@ -14,11 +16,10 @@ const BeneficiaryList = ({ beneficiary }) => {
           maxTransferLimit,
         } = benef;
         count += 1;
-
+        
         return (
           <tr key={beneficiaryId}>
             <th className="text-center" scope="row">
-              {console.log("Count inside list " + count)}
               {count}
             </th>
             <td className="text-center">{firstName}</td>

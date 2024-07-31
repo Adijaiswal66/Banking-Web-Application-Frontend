@@ -1,8 +1,7 @@
 import React from "react";
 import Base from "../../components/Base";
-import CustomerDetails from "../../components/CustomerDetails";
 import BeneficiaryDetails from "../../components/BeneficiaryDetails";
-import BeneficiaryList from "../../components/BeneficiaryList";
+import CustomerDetails from "../../components/CustomerDetails";
 
 function ProfileInfo() {
   return (

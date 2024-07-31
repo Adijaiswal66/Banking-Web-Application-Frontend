@@ -24,8 +24,8 @@ function LoginForm() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(loginDetail);
-    if (loginDetail.email.trim() == "" || loginDetail.password.trim() == "") {
+    // console.log(loginDetail);
+    if (loginDetail.email.trim() === "" || loginDetail.password.trim() === "") {
       toast.error("email and password is required", {
         position: "bottom-center",
         autoClose: 2000,
@@ -42,37 +42,38 @@ function LoginForm() {
 
     loginUser(loginDetail)
       .then((jwtTokenData) => {
-        console.log(jwtTokenData);
+        // console.log(jwtTokenData);
         doLogin(jwtTokenData, () => {
-          console.log("data is saved to localstorage");
-          navigate("/customer/dashboard");
+          if (jwtTokenData.token) {
+            toast.success("User logged in successfully", {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
+            navigate("/customer/dashboard");
+            // return;
+          }
+          if (jwtTokenData === "Credentials Invalid !!") {
+            toast.error(jwtTokenData, {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
+            navigate("/login");
+          }
         });
-        if (jwtTokenData.token) {
-          toast.success("User logged in successfully", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
-          return;
-        }
-        if (jwtTokenData == "Credentials Invalid !!")
-          toast.error(jwtTokenData, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
       })
       .catch((error) => {
         console.log(error);

@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Base from "./Base";
-import { getCurrentUserDetail, isLoggedIn } from "../auth";
-import { base_url } from "../services/Helper";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { getCurrentUserDetail } from "../auth";
+import { base_url } from "../services/Helper";
 import BeneficiaryList from "./BeneficiaryList";
 
 function BeneficiaryDetails() {
-  const [id, setId] = useState(0);
   const [beneficiary, setBeneficiary] = useState([]);
 
   useEffect(() => {
@@ -58,7 +56,7 @@ function BeneficiaryDetails() {
               </tr>
             </thead>
             <tbody>
-              <BeneficiaryList beneficiary={beneficiary}  />
+              <BeneficiaryList beneficiary={beneficiary} />
             </tbody>
           </table>
         </div>

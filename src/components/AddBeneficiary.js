@@ -41,15 +41,11 @@ function AddBeneficiary() {
     });
   };
 
-  const [beneficiary, setbeneficiary] = useState({
+   const [beneficiary, setbeneficiary] = useState({
     firstName: "",
     lastName: "",
     maxTransferLimit: "",
     bankName: "",
-  });
-  const [error, setError] = useState({
-    errors: {},
-    isError: false,
   });
 
   const handleFormSubmit = (e) => {
@@ -76,7 +72,7 @@ function AddBeneficiary() {
     console.log(beneficiary);
     addBeneficiary(beneficiary)
       .then((resp) => {
-        console.log(resp);
+        console.log("resp" + resp);
         toast.success(resp, {
           position: "bottom-center",
           autoClose: 2000,

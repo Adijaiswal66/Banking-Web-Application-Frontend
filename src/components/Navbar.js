@@ -1,27 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import LoginForm from "./LoginForm";
-import { doLogout, getCurrentUserDetail, isLoggedIn } from "../auth";
-import { Bounce, toast } from "react-toastify";
-import LogoutIcon from "@mui/icons-material/Logout";
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import LogoutIcon from "@mui/icons-material/Logout";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Bounce, toast } from "react-toastify";
+import { doLogout, getCurrentUserDetail, isLoggedIn } from "../auth";
 
 function Navbar() {
   const navigate = useNavigate();
   const [login, setLogin] = useState(false);
   const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   setLogin(isLoggedIn());
-
-  //   setUser(getCurrentUserDetail());
-  // }, [login]);
-
   useEffect(() => {
     setLogin(isLoggedIn());
     setUser(getCurrentUserDetail());
-  }, [login]);
+  }, []);
 
   const handleLoginButton = () => {
     setInterval(() => {
@@ -44,11 +37,14 @@ function Navbar() {
         theme: "light",
         transition: Bounce,
       });
-      // navigate("/home");
     });
   };
 
-  if (!user) {
+  if (
+    !user ||
+    getCurrentUserDetail() === "Credentials Invalid !!" ||
+    user === null
+  ) {
     return (
       <div>
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
