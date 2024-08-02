@@ -1,25 +1,59 @@
+import axios from "axios";
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
 import { Bounce, toast } from "react-toastify";
-import { signUp } from "../services/user-service";
-function SignupForm() {
+import { getCurrentUserDetail } from "../auth";
+import { base_url } from "../services/Helper";
+import Base from "./Base";
+
+function EditCustomerProfile() {
+  // const [user, setUser] = useState(getCurrentUserDetail());
+
+  const [updatedData, setUpdatedData] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    userEmail: getCurrentUserDetail().user.userEmail,
+    address: "",
+  });
+
+  const handleResetButton = (e) => {
+    setUpdatedData({
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      address: "",
+      userEmail: getCurrentUserDetail().user.userEmail
+    });
+  };
+
   const handleChange = (event, field) => {
     let actualValue = event.target.value;
-    setData({
-      ...data,
+    setUpdatedData({
+      ...updatedData,
       [field]: actualValue,
     });
   };
 
- const handleFormSubmit = (e) => {
+  const updateUser = async (updatedData) => {
+    console.log(getCurrentUserDetail());
+    axios.defaults.headers.common["Authorization"] = `Bearer ${
+      getCurrentUserDetail().token
+    }`;
+    await axios
+      .put(
+        `${base_url}/user/customer/${getCurrentUserDetail().user.userId}`,
+        updatedData
+      )
+      .then((response) => response.data);
+  };
+
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     if (
-      data.firstName.trim() == "" ||
-      data.lastName.trim() == "" ||
-      data.address.trim() == "" ||
-      data.userEmail.trim() == "" ||
-      data.phoneNumber.trim() == "" ||
-      data.password.trim() == ""
+      updatedData.firstName.trim() === "" ||
+      updatedData.lastName.trim() === "" ||
+      updatedData.address.trim() === "" ||
+      updatedData.phoneNumber.trim() === ""
     ) {
       toast.error("Please fill up all the fields before submitting", {
         position: "bottom-center",
@@ -35,8 +69,9 @@ function SignupForm() {
       return;
     }
 
-    console.log(data);
-    signUp(data)
+    console.log(updatedData);
+
+    updateUser(updatedData)
       .then((resp) => {
         console.log(resp);
         toast.success(resp, {
@@ -92,19 +127,7 @@ function SignupForm() {
             transition: Bounce,
           });
         }
-        if (error.response.data.password) {
-          toast.error(error.response.data.password, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
-        }
+
         if (error.response.data.phoneNumber) {
           toast.error(error.response.data.phoneNumber, {
             position: "bottom-center",
@@ -132,40 +155,10 @@ function SignupForm() {
           });
         }
       });
-  }; 
-
-  const handleResetButton = (e) => {
-    setData({
-      firstName: "",
-      lastName: "",
-      userEmail: "",
-      password: "",
-      phoneNumber: "",
-      address: "",
-    });
   };
-
-  const [type, setType] = useState("password");
-  const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
-    userEmail: "",
-    password: "",
-    phoneNumber: "",
-    address: "",
-  });
-
-  const handleToggle = () => {
-    if (type === "password") {
-      setType("text");
-    } else {
-      setType("password");
-    }
-  };
-
+  // console.log(user);
   return (
-    <>
-      <Navbar />
+    <Base>
       <div className="">
         <form style={{ width: "22rem" }} className="m-auto">
           <div className="mb-1">
@@ -176,7 +169,7 @@ function SignupForm() {
               type="text"
               id="firstName"
               className="form-control"
-              value={data.firstName}
+              value={updatedData.firstName}
               onChange={(e) => handleChange(e, "firstName")}
             />
           </div>
@@ -189,7 +182,7 @@ function SignupForm() {
               type="text"
               id="lastName"
               className="form-control"
-              value={data.lastName}
+              value={updatedData.lastName}
               onChange={(e) => handleChange(e, "lastName")}
             />
           </div>
@@ -202,7 +195,7 @@ function SignupForm() {
               type="text"
               id="phoneNumber"
               className="form-control"
-              value={data.phoneNumber}
+              value={updatedData.phoneNumber}
               onChange={(e) => handleChange(e, "phoneNumber")}
             />
           </div>
@@ -215,7 +208,7 @@ function SignupForm() {
               type="text"
               id="address"
               className="form-control"
-              value={data.address}
+              value={updatedData.address}
               onChange={(e) => handleChange(e, "address")}
             />
           </div>
@@ -228,40 +221,12 @@ function SignupForm() {
               type="userEmail"
               id="userEmail"
               className="form-control"
-              value={data.userEmail}
-              onChange={(e) => handleChange(e, "userEmail")}
+              value={getCurrentUserDetail().user.userEmail}
+              disabled
             />
             <div id="userEmail" className="form-text d-flex">
               We'll never share your email with anyone else.
             </div>
-          </div>
-
-          <div className="mb-1">
-            <label htmlFor="password" className="form-label d-flex mb-1">
-              Password
-            </label>
-            <input
-              type={type}
-              name="password"
-              className="form-control"
-              id="password"
-              value={data.password}
-              onChange={(e) => handleChange(e, "password")}
-            />
-          </div>
-          <div className="mb-1 form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="togglePassword"
-              onChange={handleToggle}
-            />
-            <label
-              className="form-check-label toggleButton d-flex"
-              htmlFor="togglePassword"
-            >
-              Show password
-            </label>
           </div>
 
           <div className="buttons d-flex justify-content-evenly mt-3">
@@ -271,20 +236,20 @@ function SignupForm() {
               style={{ marginRight: "-5rem" }}
               onClick={handleFormSubmit}
             >
-              Register
+              Update
             </button>
             <button
               type="reset"
-              className="btn btn-sm btn-dark"
               onClick={handleResetButton}
+              className="btn btn-sm btn-dark"
             >
               Reset
             </button>
           </div>
         </form>
       </div>
-    </>
+    </Base>
   );
 }
 
-export default SignupForm;
+export default EditCustomerProfile;

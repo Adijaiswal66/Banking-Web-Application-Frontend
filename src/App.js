@@ -9,22 +9,27 @@ import SignupForm from "./components/SignupForm";
 import TransactionsDetails from "./components/TransactionsDetails";
 import CustomerDashBoard from "./pages/customer-routes/CustomerDashBoard";
 import ProfileInfo from "./pages/customer-routes/ProfileInfo";
+import NoteState from "./contextAPI/noteState";
+import EditCustomerProfile from "./components/EditCustomerProfile";
 function App() {
   return (
-    <BrowserRouter>
-      <ToastContainer />
-      <Routes>
-        <Route path="/" element={<Base />} />
-        <Route path="/home" element={<Base />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/signup" element={<SignupForm />} />
-        <Route path="/customer" element={<PrivateRoute />}>
-          <Route path="dashboard" element={<CustomerDashBoard />} />
-          <Route path="profile" element={<ProfileInfo />} />
-          <Route path="transactions" element={<TransactionsDetails />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <NoteState>
+      <BrowserRouter>
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Base />} />
+          <Route path="/home" element={<Base />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/customer" element={<PrivateRoute />}>
+            <Route path="dashboard" element={<CustomerDashBoard />} />
+            <Route path="profile" element={<ProfileInfo />} />
+            <Route path="transactions" element={<TransactionsDetails />} />
+            <Route path="edit-profile" element={<EditCustomerProfile />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </NoteState>
   );
 }
 

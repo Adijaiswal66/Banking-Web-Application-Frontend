@@ -4,21 +4,17 @@ import React, { useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import { getCurrentUserDetail } from "../auth";
 import { base_url } from "../services/Helper";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import { Link } from "react-router-dom";
 
 const CustomerDetails = () => {
   const [beneficiary, setBeneficiary] = useState([]);
   const [beneficiaryId, setBeneficiaryId] = useState("");
-
+  const [user, setUser] = useState(getCurrentUserDetail());
   useEffect(() => {
     getAllBeneficiary();
     getCurrentUserDetail();
-
-  }, [Date.now]);
-  // setInterval(() => {
-  //   console.log(getCurrentUserDetail().user.availableBalance);
-  // }, 2000);
-
-  
+  }, [user]);
 
   const getAllBeneficiary = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${
@@ -76,19 +72,12 @@ const CustomerDetails = () => {
       });
       return;
     }
-    // trasnferAmountToBeneficiary(transferdata.accountNumber) .then((response) => {
-    //   let data = response.data;
-    //   console.log(data);
-
-    // })
   };
-
   const trasnferAmountToBeneficiary = async (accountNumber) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${
       getCurrentUserDetail().token
     }`;
     for (var i = 0; i < beneficiary.length; i++) {
-      // console.log(transferdata.toAccountNumber);
       if (transferdata.toAccountNumber.trim() == beneficiary[i].accountNumber) {
         setBeneficiaryId(beneficiary[i].beneficiaryId);
       }
@@ -116,6 +105,9 @@ const CustomerDetails = () => {
             theme: "light",
             transition: Bounce,
           });
+          handleResetButton();
+          setUser(getCurrentUserDetail());
+          console.log(user.user.availableBalance);
           return;
         }
         if (data === "Insufficient balance") {
@@ -209,14 +201,27 @@ const CustomerDetails = () => {
                   </div>
                 </div>
                 <div className="text-center my-4">
-                  <button
-                    type="button"
-                    className="btn btn btn-info "
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  >
-                    Transfer Money <CurrencyExchangeIcon />
-                  </button>
+                  <div className="row my-4 text-center">
+                    <div className="col-md-6 text-center">
+                      <Link to="/customer/edit-profile">
+                        <button type="button" className="btn btn btn-info ">
+                          Update Profile{" "}
+                          <EditNoteIcon style={{ marginTop: "-3px" }} />
+                        </button>
+                      </Link>
+                    </div>
+                    <div className="col-md-6 text-center">
+                      <button
+                        type="button"
+                        className="btn btn btn-info "
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                      >
+                        Transfer Money{" "}
+                        <CurrencyExchangeIcon style={{ marginTop: "-3px" }} />
+                      </button>
+                    </div>
+                  </div>
                   <div
                     className="modal fade"
                     id="exampleModal"
