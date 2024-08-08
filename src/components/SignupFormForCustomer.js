@@ -1,8 +1,22 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
 import { Bounce, toast } from "react-toastify";
-import { signUp } from "../services/user-service";
-function SignupForm() {
+import { signUpCustomer } from "../services/user-service";
+import Navbar from "./Navbar";
+
+function SignupFormForCustomer() {
+  
+
+  const [type, setType] = useState("password");
+
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    userEmail: "",
+    password: "",
+    phoneNumber: "",
+    address: "",
+  });
+
   const handleChange = (event, field) => {
     let actualValue = event.target.value;
     setData({
@@ -11,15 +25,15 @@ function SignupForm() {
     });
   };
 
- const handleFormSubmit = (e) => {
+  const handleFormSubmitForCustomer = async (e) => {
     e.preventDefault();
     if (
-      data.firstName.trim() == "" ||
-      data.lastName.trim() == "" ||
-      data.address.trim() == "" ||
-      data.userEmail.trim() == "" ||
-      data.phoneNumber.trim() == "" ||
-      data.password.trim() == ""
+      data.firstName.trim() === "" ||
+      data.lastName.trim() === "" ||
+      data.address.trim() === "" ||
+      data.userEmail.trim() === "" ||
+      data.phoneNumber.trim() === "" ||
+      data.password.trim() === ""
     ) {
       toast.error("Please fill up all the fields before submitting", {
         position: "bottom-center",
@@ -34,12 +48,35 @@ function SignupForm() {
       });
       return;
     }
-
-    console.log(data);
-    signUp(data)
-      .then((resp) => {
-        console.log(resp);
-        toast.success(resp, {
+    try {
+      const response = await signUpCustomer(data);
+      console.log(response);
+      toast.success(response, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    } catch (error) {
+      console.error("Error: ", error);
+      toast.error("Something went wrong !!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      if (error.response.data.firstName) {
+        toast.error(error.response.data.firstName, {
           position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: false,
@@ -50,89 +87,74 @@ function SignupForm() {
           theme: "light",
           transition: Bounce,
         });
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.data.firstName) {
-          toast.error(error.response.data.firstName, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
-        }
-        if (error.response.data.lastName) {
-          toast.error(error.response.data.lastName, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
-        }
-        if (error.response.data.userEmail) {
-          toast.error(error.response.data.userEmail, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
-        }
-        if (error.response.data.password) {
-          toast.error(error.response.data.password, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
-        }
-        if (error.response.data.phoneNumber) {
-          toast.error(error.response.data.phoneNumber, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
-        }
-        if (error.response.data.address) {
-          toast.error(error.response.data.address, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
-        }
-      });
-  }; 
+      }
+      if (error.response.data.lastName) {
+        toast.error(error.response.data.lastName, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+      if (error.response.data.userEmail) {
+        toast.error(error.response.data.userEmail, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+      if (error.response.data.password) {
+        toast.error(error.response.data.password, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+      if (error.response.data.phoneNumber) {
+        toast.error(error.response.data.phoneNumber, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+      if (error.response.data.address) {
+        toast.error(error.response.data.address, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+    }
+  };
 
   const handleResetButton = (e) => {
     setData({
@@ -144,16 +166,6 @@ function SignupForm() {
       address: "",
     });
   };
-
-  const [type, setType] = useState("password");
-  const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
-    userEmail: "",
-    password: "",
-    phoneNumber: "",
-    address: "",
-  });
 
   const handleToggle = () => {
     if (type === "password") {
@@ -269,7 +281,7 @@ function SignupForm() {
               type="button"
               className="btn btn-sm btn-success"
               style={{ marginRight: "-5rem" }}
-              onClick={handleFormSubmit}
+              onClick={handleFormSubmitForCustomer}
             >
               Register
             </button>
@@ -287,4 +299,4 @@ function SignupForm() {
   );
 }
 
-export default SignupForm;
+export default SignupFormForCustomer;

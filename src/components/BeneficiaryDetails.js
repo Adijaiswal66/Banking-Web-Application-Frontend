@@ -1,22 +1,25 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { getCurrentUserDetail } from "../auth";
+import React, { useContext, useEffect, useState } from "react";
+// import { getCurrentUserDetail } from "../auth";
 import { base_url } from "../services/Helper";
 import BeneficiaryList from "./BeneficiaryList";
+import NoteContext from "../contextAPI/noteContext";
 
 function BeneficiaryDetails() {
+  const { getCurrentUserDetail, update } = useContext(NoteContext);
+  update();
   const [beneficiary, setBeneficiary] = useState([]);
 
   useEffect(() => {
     getAllBeneficiary();
   }, []);
 
-  const getAllBeneficiary = async () => {
+  const getAllBeneficiary = () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${
       getCurrentUserDetail().token
     }`;
 
-    await axios
+    axios
       .get(`${base_url}/user/beneficiary/${getCurrentUserDetail().user.userId}`)
       .then((response) => {
         let data = response.data;

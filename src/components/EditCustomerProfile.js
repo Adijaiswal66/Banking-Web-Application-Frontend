@@ -1,18 +1,18 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Bounce, toast } from "react-toastify";
-import { getCurrentUserDetail } from "../auth";
 import { base_url } from "../services/Helper";
 import Base from "./Base";
+import NoteContext from "../contextAPI/noteContext";
 
 function EditCustomerProfile() {
-  // const [user, setUser] = useState(getCurrentUserDetail());
-
+  const { getCurrentUserDetail, user } = useContext(NoteContext);
+  console.log("user inside EditCustomerProfile: " + user);
   const [updatedData, setUpdatedData] = useState({
     firstName: "",
     lastName: "",
     phoneNumber: "",
-    userEmail: getCurrentUserDetail().user.userEmail,
+    userEmail: user.userEmail,
     address: "",
   });
 
@@ -22,7 +22,7 @@ function EditCustomerProfile() {
       lastName: "",
       phoneNumber: "",
       address: "",
-      userEmail: getCurrentUserDetail().user.userEmail
+      userEmail: user.userEmail,
     });
   };
 
@@ -35,16 +35,13 @@ function EditCustomerProfile() {
   };
 
   const updateUser = async (updatedData) => {
-    console.log(getCurrentUserDetail());
     axios.defaults.headers.common["Authorization"] = `Bearer ${
       getCurrentUserDetail().token
     }`;
-    await axios
-      .put(
-        `${base_url}/user/customer/${getCurrentUserDetail().user.userId}`,
-        updatedData
-      )
-      .then((response) => response.data);
+    await axios.put(
+      `${base_url}/user/customer/${getCurrentUserDetail().user.userId}`,
+      updatedData
+    );
   };
 
   const handleFormSubmit = (e) => {
@@ -74,17 +71,24 @@ function EditCustomerProfile() {
     updateUser(updatedData)
       .then((resp) => {
         console.log(resp);
-        toast.success(resp, {
-          position: "bottom-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
+        toast.success(
+          "User " +
+            user.firstName +
+            " " +
+            user.lastName +
+            " is updated successfully !!",
+          {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          }
+        );
       })
       .catch((error) => {
         console.log(error);
@@ -156,7 +160,6 @@ function EditCustomerProfile() {
         }
       });
   };
-  // console.log(user);
   return (
     <Base>
       <div className="">

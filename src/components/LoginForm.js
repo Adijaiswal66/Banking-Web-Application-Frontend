@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./Navbar";
 import { loginUser } from "../services/user-service";
-import { doLogin } from "../auth";
 import { useNavigate } from "react-router-dom";
+import NoteContext from "../contextAPI/noteContext";
 
 function LoginForm() {
+  const { doLogin } = useContext(NoteContext);
   const navigate = useNavigate();
 
   const [loginDetail, setLoginDetail] = useState({
@@ -22,9 +23,8 @@ function LoginForm() {
     });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // console.log(loginDetail);
     if (loginDetail.email.trim() === "" || loginDetail.password.trim() === "") {
       toast.error("email and password is required", {
         position: "bottom-center",
@@ -39,45 +39,34 @@ function LoginForm() {
       });
       return;
     }
+    try {
+      const jwtTokenData = await loginUser(loginDetail);
+      // console.log("loginDetail: ", loginDetail);
+      // console.log("jwtTokenData: ", jwtTokenData);
 
-    loginUser(loginDetail)
-      .then((jwtTokenData) => {
-        // console.log(jwtTokenData);
+      if (jwtTokenData.token && jwtTokenData.user) {
         doLogin(jwtTokenData, () => {
-          if (jwtTokenData.token) {
-            toast.success("User logged in successfully", {
-              position: "bottom-center",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              transition: Bounce,
-            });
-            navigate("/customer/dashboard");
-            // return;
-          }
-          if (jwtTokenData === "Credentials Invalid !!") {
-            toast.error(jwtTokenData, {
-              position: "bottom-center",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              transition: Bounce,
-            });
-            navigate("/login");
-          }
+          // console.log("Data saved in local storage:", {
+          //   token: localStorage.getItem("token"),
+          //   user: localStorage.getItem("user"),
+          // });
+
+          toast.success("User logged in successfully", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+
+          navigate("/customer/profile");
         });
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Something went wrong !!", {
+      } else if (jwtTokenData === "Credentials Invalid !!") {
+        toast.error(jwtTokenData, {
           position: "bottom-center",
           autoClose: 2000,
           hideProgressBar: false,
@@ -88,7 +77,94 @@ function LoginForm() {
           theme: "light",
           transition: Bounce,
         });
+        navigate("/login");
+      } else {
+        console.error("Invalid response data: ", jwtTokenData);
+        toast.error("Invalid response data", {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+      toast.error("Something went wrong !!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
       });
+    }
+
+    // loginUser(loginDetail)
+    //   .then((jwtTokenData) => {
+    //     console.log("loginDetail: " + JSON.stringify(loginDetail));
+
+    //     console.log("jwtTokenData: " + JSON.stringify(jwtTokenData));
+    //     doLogin(jwtTokenData, () => {
+    //       if (jwtTokenData.token) {
+    //         toast.success("User logged in successfully", {
+    //           position: "bottom-center",
+    //           autoClose: 2000,
+    //           hideProgressBar: false,
+    //           closeOnClick: true,
+    //           pauseOnHover: true,
+    //           draggable: true,
+    //           progress: undefined,
+    //           theme: "light",
+    //           transition: Bounce,
+    //         });
+    //         navigate("/customer/dashboard");
+    //         // return;
+    //       }
+
+    //       if (jwtTokenData === "Credentials Invalid !!") {
+    //         toast.error(jwtTokenData, {
+    //           position: "bottom-center",
+    //           autoClose: 2000,
+    //           hideProgressBar: false,
+    //           closeOnClick: true,
+    //           pauseOnHover: true,
+    //           draggable: true,
+    //           progress: undefined,
+    //           theme: "light",
+    //           transition: Bounce,
+    //         });
+    //         navigate("/login");
+    //       }
+
+    //       if (jwtTokenData === undefined) {
+    //         navigate("/login");
+    //         return;
+    //       }
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     toast.error("Something went wrong !!", {
+    //       position: "bottom-center",
+    //       autoClose: 2000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //       theme: "light",
+    //       transition: Bounce,
+    //     });
+    //   });
   };
 
   const handleResetButton = (e) => {

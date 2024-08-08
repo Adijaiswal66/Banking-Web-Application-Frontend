@@ -1,20 +1,21 @@
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
-import { getCurrentUserDetail } from "../auth";
 import { base_url } from "../services/Helper";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { Link } from "react-router-dom";
+import NoteContext from "../contextAPI/noteContext";
 
 const CustomerDetails = () => {
+  const { getCurrentUserDetail, user, update } = useContext(NoteContext);
   const [beneficiary, setBeneficiary] = useState([]);
   const [beneficiaryId, setBeneficiaryId] = useState("");
-  const [user, setUser] = useState(getCurrentUserDetail());
   useEffect(() => {
     getAllBeneficiary();
-    getCurrentUserDetail();
-  }, [user]);
+    update();
+    // getCurrentUserDetail();
+  }, []);
 
   const getAllBeneficiary = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${
@@ -56,8 +57,8 @@ const CustomerDetails = () => {
     e.preventDefault();
 
     if (
-      transferdata.transferredAmount.trim == "" ||
-      transferdata.toAccountNumber.trim == ""
+      transferdata.transferredAmount.trim === "" ||
+      transferdata.toAccountNumber.trim === ""
     ) {
       toast.error("Please fill up all the fields before submitting", {
         position: "bottom-center",
@@ -72,17 +73,21 @@ const CustomerDetails = () => {
       });
       return;
     }
+    trasnferAmountToBeneficiary();
   };
   const trasnferAmountToBeneficiary = async (accountNumber) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${
       getCurrentUserDetail().token
     }`;
     for (var i = 0; i < beneficiary.length; i++) {
-      if (transferdata.toAccountNumber.trim() == beneficiary[i].accountNumber) {
+      if (
+        transferdata.toAccountNumber.trim() === beneficiary[i].accountNumber
+      ) {
         setBeneficiaryId(beneficiary[i].beneficiaryId);
       }
     }
-    return await axios
+    // console.log("beneficiaryId : " + beneficiaryId);
+    await axios
       .post(
         `${base_url}/transactions/transfer/${
           getCurrentUserDetail().user.userId
@@ -91,9 +96,11 @@ const CustomerDetails = () => {
       )
       .then((response) => {
         let data = response.data;
+        console.log(response);
         console.log(data);
         setTransferData(data);
-        if (data != "Insufficient balance") {
+
+        if (data !== "Insufficient balance") {
           toast.success(data, {
             position: "bottom-center",
             autoClose: 2000,
@@ -106,13 +113,13 @@ const CustomerDetails = () => {
             transition: Bounce,
           });
           handleResetButton();
-          setUser(getCurrentUserDetail());
-          console.log(user.user.availableBalance);
+          // setUser(user);
+          // console.log(user.user.availableBalance);
           return;
         }
         if (data === "Insufficient balance") {
-          toast.error(data, {
-            position: "bottom-center",
+          toast.error("Insufficient balance", {
+            position: "botto  m-center",
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -124,15 +131,31 @@ const CustomerDetails = () => {
           });
           return;
         }
+        update();
       })
       .catch((error) => {
         console.log(error);
+        let data = error.response.data;
+        console.log(data);
+        // if (data === "Insufficient balance") {
+        toast.error(data, {
+          position: "botto  m-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        return;
+        // }
       });
   };
-
+  // console.log("user inside CustomerDetails: " + user);
   return (
     <>
-      ;
       <div className="container mt-3">
         <div className="row">
           <div className="col-md-6">
@@ -142,37 +165,28 @@ const CustomerDetails = () => {
                   className="card-title text-center"
                   style={{ fontWeight: "bold", fontSize: "2rem" }}
                 >
-                  Hi, {getCurrentUserDetail().user.firstName}{" "}
-                  {getCurrentUserDetail().user.lastName}
+                  Hi, {user.firstName} {user.lastName}
                 </h6>
 
                 <div className="row my-4 text-center">
                   <div className="col-md-6">
                     <h6 className="card-title mb-0">Email</h6>
-                    <p className="card-text">
-                      {getCurrentUserDetail().user.userEmail}
-                    </p>
+                    <p className="card-text">{user.userEmail}</p>
                   </div>
                   <div className="col-md-6 text-center">
                     <h6 className="card-title mb-0">Phone Number</h6>
-                    <p className="card-text ">
-                      {getCurrentUserDetail().user.phoneNumber}
-                    </p>
+                    <p className="card-text ">{user.phoneNumber}</p>
                   </div>
                 </div>
 
                 <div className="row my-3 text-center">
                   <div className="col-md-6">
                     <h6 className="card-title mb-0">Account Number</h6>
-                    <p className="card-text">
-                      {getCurrentUserDetail().user.accountNumber}
-                    </p>
+                    <p className="card-text">{user.accountNumber}</p>
                   </div>
                   <div className="col-md-6">
                     <h6 className="card-title mb-0">Address</h6>
-                    <p className="card-text">
-                      {getCurrentUserDetail().user.address}
-                    </p>
+                    <p className="card-text">{user.address}</p>
                   </div>
                 </div>
               </div>
@@ -185,8 +199,7 @@ const CustomerDetails = () => {
                   className="card-title text-center"
                   style={{ fontWeight: "bold", fontSize: "2rem" }}
                 >
-                  Available Balance :{" "}
-                  {getCurrentUserDetail().user.availableBalance}
+                  Available Balance : {user.availableBalance}
                 </h6>
 
                 <div className="row my-4 text-center">
@@ -195,8 +208,7 @@ const CustomerDetails = () => {
                       className="card-title"
                       style={{ fontWeight: "bold", fontSize: "1.5rem" }}
                     >
-                      Total Beneficiaries :{" "}
-                      {getCurrentUserDetail().user.beneficiaries.length}
+                      Total Beneficiaries : {beneficiary.length}
                     </h6>
                   </div>
                 </div>
@@ -260,9 +272,7 @@ const CustomerDetails = () => {
                                 type="text"
                                 id="fromAccountNumber"
                                 className="form-control"
-                                value={
-                                  getCurrentUserDetail().user.accountNumber
-                                }
+                                value={user.accountNumber}
                                 disabled
                               />
                             </div>
@@ -310,8 +320,7 @@ const CustomerDetails = () => {
                                 type="button"
                                 className="btn btn-sm btn-success"
                                 style={{ marginRight: "-5rem" }}
-                                onClick={trasnferAmountToBeneficiary}
-                                onSubmit={handleFormSubmit}
+                                onClick={handleFormSubmit}
                               >
                                 Transfer
                               </button>

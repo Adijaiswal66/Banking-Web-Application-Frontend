@@ -1,5 +1,4 @@
-import { useTheme } from "@emotion/react";
-import React, { useState } from "react";
+import React from "react";
 
 function TransactionList({ transaction }) {
   const tableColorChanger = (type) => {

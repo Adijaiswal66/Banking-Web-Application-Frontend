@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Bounce, toast } from "react-toastify";
-import { addBeneficiary } from "../services/user-service";
 import axios from "axios";
+import React, { useContext, useState } from "react";
+import { Bounce, toast } from "react-toastify";
 import { base_url } from "../services/Helper";
-import { getCurrentUserDetail } from "../auth";
+import NoteContext from "../contextAPI/noteContext";
 
 function AddBeneficiary() {
+  const { getCurrentUserDetail } = useContext(NoteContext);
   const addBeneficiary = async (beneficiary) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${
       getCurrentUserDetail().token
@@ -41,7 +41,7 @@ function AddBeneficiary() {
     });
   };
 
-   const [beneficiary, setbeneficiary] = useState({
+  const [beneficiary, setbeneficiary] = useState({
     firstName: "",
     lastName: "",
     maxTransferLimit: "",
@@ -51,10 +51,10 @@ function AddBeneficiary() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (
-      beneficiary.firstName.trim() == "" ||
-      beneficiary.lastName.trim() == "" ||
-      beneficiary.maxTransferLimit.trim() == "" ||
-      beneficiary.bankName.trim() == ""
+      beneficiary.firstName.trim() === "" ||
+      beneficiary.lastName.trim() === "" ||
+      beneficiary.maxTransferLimit.trim() === "" ||
+      beneficiary.bankName.trim() === ""
     ) {
       toast.error("Please fill up all the fields before submitting", {
         position: "bottom-center",

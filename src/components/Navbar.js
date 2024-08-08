@@ -1,25 +1,25 @@
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
-import { doLogout, getCurrentUserDetail, isLoggedIn } from "../auth";
+import NoteContext from "../contextAPI/noteContext";
 
 function Navbar() {
-  const navigate = useNavigate();
+  const { getCurrentUserDetail, user, doLogout, isLoggedIn } =
+    useContext(NoteContext);
   const [login, setLogin] = useState(false);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     setLogin(isLoggedIn());
-    setUser(getCurrentUserDetail());
+    // setUser(user);
   }, []);
 
   const handleLoginButton = () => {
     setInterval(() => {
       setLogin(isLoggedIn());
-      setUser(getCurrentUserDetail());
+      // setUser(user);
     }, 1000);
   };
 
@@ -40,10 +40,14 @@ function Navbar() {
     });
   };
 
+  // console.log("user in Navbar: " + JSON.stringify(user));
+  // console.log("getCurrentUserDetail in Navbar: " + JSON.stringify(getCurrentUserDetail()));
+
   if (
     !user ||
     getCurrentUserDetail() === "Credentials Invalid !!" ||
-    user === null
+    user === null ||
+    getCurrentUserDetail() === undefined
   ) {
     return (
       <div>
@@ -87,7 +91,7 @@ function Navbar() {
                   className="btn btn-outline-success mx-2 "
                   type="submit"
                   to="/login"
-                  onClick={handleLoginButton()}
+                  onClick={handleLoginButton}
                 >
                   Login
                   <LoginOutlinedIcon
@@ -95,13 +99,66 @@ function Navbar() {
                   />
                 </Link>
 
-                <Link
+                {/* <Link
                   className="btn btn-outline-success"
                   type="submit"
                   to="/signup"
                 >
                   Signup
+                </Link> */}
+                <Link>
+                  <button
+                    type="button"
+                    className="btn btn-outline-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                  >
+                    Signup
+                  </button>
                 </Link>
+
+                <div
+                  className="modal fade"
+                  id="exampleModal"
+                  tabIndex="-1"
+                  aria-labelledby="exampleModalLabel"
+                  aria-hidden="true"
+                >
+                  <div className="modal-dialog " style={{ marginTop: "10rem" }}>
+                    <div className="modal-content">
+                      <div className="modal-header"></div>
+
+                      <div className="row my-4 text-center">
+                        <div className="col-md-6 text-center">
+                          <Link to="/signup-admin">
+                            <button
+                              type="button"
+                              className="btn btn btn-info"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModal"
+                            >
+                              Sign in as Admin{" "}
+                            </button>
+                          </Link>
+                        </div>
+                        <div className="col-md-6 text-center">
+                          <Link to="/signup-customer">
+                            <button
+                              type="button"
+                              className="btn btn btn-info "
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModal"
+                            >
+                              Sign in as Customer{" "}
+                            </button>
+                          </Link>
+                        </div>
+                      </div>
+
+                      <div className="modal-footer"></div>
+                    </div>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
@@ -109,7 +166,7 @@ function Navbar() {
       </div>
     );
   }
-  if (user) {
+  if (user || getCurrentUserDetail !== undefined) {
     return (
       <div>
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -168,8 +225,8 @@ function Navbar() {
                     aria-current="page"
                     to="/customer/profile"
                   >
-                    {user.user.firstName + " "}
-                    {user.user.lastName}
+                    {user.firstName + " "}
+                    {user.lastName}
                   </Link>
                 </li>
                 <li className="nav-item" style={{ marginRight: "5px" }}>
