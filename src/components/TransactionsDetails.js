@@ -6,13 +6,12 @@ import { base_url } from "../services/Helper";
 import NoteContext from "../contextAPI/noteContext";
 
 function TransactionsDetails() {
-  const {
-    getCurrentUserDetail} = useContext(NoteContext);
+  const { getCurrentUserDetail } = useContext(NoteContext);
   const [transaction, setTransaction] = useState([]);
 
   useEffect(() => {
     getAlltransactionsById();
-  });
+  }, []);
 
   const getAlltransactionsById = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${

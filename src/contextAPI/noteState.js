@@ -62,6 +62,7 @@ const NoteState = (props) => {
       .get(`${base_url}/user/customer/${getCurrentUserDetail().user.userId}`)
       .then((response) => {
         let data = response.data;
+        // console.log("user inside getUSerbyId: " + user);
         setUser(data);
       })
       .catch((error) => {
