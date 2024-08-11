@@ -5,9 +5,11 @@ import Navbar from "./Navbar";
 import { loginUser } from "../services/user-service";
 import { useNavigate } from "react-router-dom";
 import NoteContext from "../contextAPI/noteContext";
+import AuthContext from "../contextAPI/AuthContext";
 
 function LoginForm() {
   const { doLogin } = useContext(NoteContext);
+
   const navigate = useNavigate();
 
   const [loginDetail, setLoginDetail] = useState({
@@ -107,64 +109,6 @@ function LoginForm() {
         transition: Bounce,
       });
     }
-
-    // loginUser(loginDetail)
-    //   .then((jwtTokenData) => {
-    //     console.log("loginDetail: " + JSON.stringify(loginDetail));
-
-    //     console.log("jwtTokenData: " + JSON.stringify(jwtTokenData));
-    //     doLogin(jwtTokenData, () => {
-    //       if (jwtTokenData.token) {
-    //         toast.success("User logged in successfully", {
-    //           position: "bottom-center",
-    //           autoClose: 2000,
-    //           hideProgressBar: false,
-    //           closeOnClick: true,
-    //           pauseOnHover: true,
-    //           draggable: true,
-    //           progress: undefined,
-    //           theme: "light",
-    //           transition: Bounce,
-    //         });
-    //         navigate("/customer/dashboard");
-    //         // return;
-    //       }
-
-    //       if (jwtTokenData === "Credentials Invalid !!") {
-    //         toast.error(jwtTokenData, {
-    //           position: "bottom-center",
-    //           autoClose: 2000,
-    //           hideProgressBar: false,
-    //           closeOnClick: true,
-    //           pauseOnHover: true,
-    //           draggable: true,
-    //           progress: undefined,
-    //           theme: "light",
-    //           transition: Bounce,
-    //         });
-    //         navigate("/login");
-    //       }
-
-    //       if (jwtTokenData === undefined) {
-    //         navigate("/login");
-    //         return;
-    //       }
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     toast.error("Something went wrong !!", {
-    //       position: "bottom-center",
-    //       autoClose: 2000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //       transition: Bounce,
-    //     });
-    //   });
   };
 
   const handleResetButton = (e) => {
