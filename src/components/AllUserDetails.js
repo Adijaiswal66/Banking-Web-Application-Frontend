@@ -53,6 +53,9 @@ function AllUserDetails() {
                 <th className="text-center" scope="col">
                   address
                 </th>
+                <th className="text-center" scope="col">
+                  Account No.
+                </th>
               </tr>
             </thead>
             <tbody>

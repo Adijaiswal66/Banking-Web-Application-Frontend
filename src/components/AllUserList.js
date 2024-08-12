@@ -13,6 +13,7 @@ function AllUserList({ userList }) {
           userEmail,
           phoneNumber,
           address,
+          accountNumber
         } = users;
         count += 1;
 
@@ -26,6 +27,7 @@ function AllUserList({ userList }) {
             <td className="text-center">{userEmail}</td>
             <td className="text-center">{phoneNumber}</td>
             <td className="text-center">{address}</td>
+            <td className="text-center">{accountNumber}</td>
           </tr>
         );
       })}
