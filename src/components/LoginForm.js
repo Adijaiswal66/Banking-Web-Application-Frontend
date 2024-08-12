@@ -1,14 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Navbar from "./Navbar";
-import { loginUser } from "../services/user-service";
-import { useNavigate } from "react-router-dom";
 import NoteContext from "../contextAPI/noteContext";
-import AuthContext from "../contextAPI/AuthContext";
+import { loginUser } from "../services/user-service";
+import Navbar from "./Navbar";
 
 function LoginForm() {
-  const { doLogin } = useContext(NoteContext);
+  const { doLogin, isAdmin, isCustomer, isLoggedIn } = useContext(NoteContext);
 
   const navigate = useNavigate();
 
@@ -16,6 +15,12 @@ function LoginForm() {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (isLoggedIn()) {
+      navigate(isAdmin ? "/admin/admin-profile" : "/customer/customer-profile");
+    }
+  }, [isLoggedIn, isAdmin, navigate]);
 
   const handleChange = (event, field) => {
     let actualValue = event.target.value;
@@ -64,8 +69,11 @@ function LoginForm() {
             theme: "light",
             transition: Bounce,
           });
-
-          navigate("/customer/profile");
+          if (isAdmin) {
+            navigate("/admin/admin-profile");
+          } else if (isCustomer) {
+            navigate("/customer/customer-profile");
+          } else navigate("/login");
         });
       } else if (jwtTokenData === "Credentials Invalid !!") {
         toast.error(jwtTokenData, {

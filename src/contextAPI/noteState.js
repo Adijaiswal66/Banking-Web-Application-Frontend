@@ -6,12 +6,12 @@ const NoteState = (props) => {
   const [user, setUser] = useState([]);
 
   useEffect(() => {
-    getCurrentUserDetail();
-    // console.log(getCurrentUserDetail());
-    if (getCurrentUserDetail() !== undefined || !user) {
+    const currentUser = getCurrentUserDetail();
+    if (currentUser !== undefined || !user) {
       getuserbyid();
     }
   }, []);
+  
 
   const update = () => {
     setTimeout(() => {
@@ -24,6 +24,7 @@ const NoteState = (props) => {
     // console.log("data inside doLogin: " + JSON.stringify(data));
     if (data.token && data.user) {
       localStorage.setItem("data", JSON.stringify(data));
+      setUser(data.user); // Set user immediately
       next();
     } else {
       console.log("Invalid response");
@@ -43,9 +44,11 @@ const NoteState = (props) => {
     }
   };
   const doLogout = (next) => {
+    setUser([]); // Reset user state
     localStorage.removeItem("data");
     next();
   };
+
   const getCurrentUserDetail = () => {
     if (isLoggedIn()) {
       return JSON.parse(localStorage.getItem("data"));
@@ -53,6 +56,7 @@ const NoteState = (props) => {
       return undefined;
     }
   };
+
   const getuserbyid = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${
       getCurrentUserDetail().token
@@ -62,13 +66,18 @@ const NoteState = (props) => {
       .get(`${base_url}/user/customer/${getCurrentUserDetail().user.userId}`)
       .then((response) => {
         let data = response.data;
-        // console.log("user inside getUSerbyId: " + user);
+        // console.log("user inside getUSerbyId: " + JSON.stringify(user));
         setUser(data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  const isAdmin = user?.roles?.some((role) => role.name === "ROLE_ADMIN");
+
+  const isCustomer = user?.roles?.some((role) => role.name === "ROLE_CUSTOMER");
+  // console.log("user in noteState: " + JSON.stringify(user));
   return (
     <NoteContext.Provider
       value={{
@@ -78,6 +87,8 @@ const NoteState = (props) => {
         getCurrentUserDetail,
         user,
         update,
+        isAdmin,
+        isCustomer,
       }}
     >
       {props.children}

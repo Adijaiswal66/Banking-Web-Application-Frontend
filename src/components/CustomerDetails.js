@@ -13,7 +13,7 @@ const CustomerDetails = () => {
   const [beneficiaryId, setBeneficiaryId] = useState("");
   useEffect(() => {
     getAllBeneficiary();
-   
+
     // getCurrentUserDetail();
   }, []);
 

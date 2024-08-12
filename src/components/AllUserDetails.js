@@ -1,40 +1,36 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-// import { getCurrentUserDetail } from "../auth";
 import { base_url } from "../services/Helper";
-import BeneficiaryList from "./BeneficiaryList";
+import AllUserList from "./AllUserList";
 import NoteContext from "../contextAPI/noteContext";
-
-function BeneficiaryDetails() {
+function AllUserDetails() {
   const { getCurrentUserDetail, update } = useContext(NoteContext);
-  update();
-  const [beneficiary, setBeneficiary] = useState([]);
-  
+
+  const [userList, setUserList] = useState([]);
+
   useEffect(() => {
-    getAllBeneficiary();
+    getAllCustomer();
   }, []);
 
-  const getAllBeneficiary = () => {
+  const getAllCustomer = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${
       getCurrentUserDetail().token
     }`;
 
-    axios
-      .get(`${base_url}/user/beneficiary/${getCurrentUserDetail().user.userId}`)
+    await axios
+      .get(`${base_url}/user/admin/customers`)
       .then((response) => {
         let data = response.data;
-        setBeneficiary(data);
+        setUserList(data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
-  
   return (
     <div>
       <div className="container">
-        <h3 className="my-3">Your Beneficiaries: </h3>
+        <h3 className="my-4 mt-4">Registered Users : </h3>
         <div className="row">
           <table className="table table-striped">
             <thead>
@@ -49,18 +45,18 @@ function BeneficiaryDetails() {
                   Last Name
                 </th>
                 <th className="text-center" scope="col">
-                  Account Number
+                  Email address
                 </th>
                 <th className="text-center" scope="col">
-                  Bank Name
+                  Phone No.
                 </th>
                 <th className="text-center" scope="col">
-                  Transfer Limit
+                  address
                 </th>
               </tr>
             </thead>
             <tbody>
-              <BeneficiaryList beneficiary={beneficiary} />
+              <AllUserList userList={userList} />
             </tbody>
           </table>
         </div>
@@ -69,4 +65,4 @@ function BeneficiaryDetails() {
   );
 }
 
-export default BeneficiaryDetails;
+export default AllUserDetails;

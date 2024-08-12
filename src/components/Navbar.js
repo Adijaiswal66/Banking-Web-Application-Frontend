@@ -7,8 +7,9 @@ import { Bounce, toast } from "react-toastify";
 import NoteContext from "../contextAPI/noteContext";
 
 function Navbar() {
-  const { getCurrentUserDetail, user, doLogout, isLoggedIn } =
+  const { getCurrentUserDetail, user, doLogout, isLoggedIn, isAdmin } =
     useContext(NoteContext);
+
   const [login, setLogin] = useState(false);
 
   useEffect(() => {
@@ -39,6 +40,8 @@ function Navbar() {
       });
     });
   };
+
+  // Check if the user has the 'ROLE_ADMIN' role
 
   // console.log("user in Navbar: " + JSON.stringify(user));
   // console.log("getCurrentUserDetail in Navbar: " + JSON.stringify(getCurrentUserDetail()));
@@ -166,6 +169,11 @@ function Navbar() {
       </div>
     );
   }
+
+  const profileUrl = isAdmin
+    ? "/admin/admin-profile"
+    : "/customer/customer-profile";
+
   if (user || getCurrentUserDetail !== undefined) {
     return (
       <div>
@@ -202,16 +210,20 @@ function Navbar() {
                     Home
                   </Link>
                 </li>
+
                 <li className="nav-item">
-                  <Link className="nav-link" to="/customer/profile">
+                  <Link className="nav-link" to={profileUrl}>
                     Profile
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/customer/dashboard">
-                    Dashboard
-                  </Link>
-                </li>
+
+                {isAdmin && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/admin/dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+                )}
                 <li className="nav-item">
                   <Link className="nav-link" to="/customer/transactions">
                     Transactions
