@@ -4,29 +4,14 @@ import { base_url } from "../services/Helper";
 import AllUserList from "./AllUserList";
 import NoteContext from "../contextAPI/noteContext";
 function AllUserDetails() {
-  const { getCurrentUserDetail, update } = useContext(NoteContext);
+  const { getCurrentUserDetail, update,userList } = useContext(NoteContext);
 
-  const [userList, setUserList] = useState([]);
 
-  useEffect(() => {
-    getAllCustomer();
-  }, []);
+  // useEffect(() => {
+  //   getAllCustomer();
+  // }, []);
 
-  const getAllCustomer = async () => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${
-      getCurrentUserDetail().token
-    }`;
-
-    await axios
-      .get(`${base_url}/user/admin/customers`)
-      .then((response) => {
-        let data = response.data;
-        setUserList(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+ 
   return (
     <div>
       <div className="container">
@@ -55,6 +40,9 @@ function AllUserDetails() {
                 </th>
                 <th className="text-center" scope="col">
                   Account No.
+                </th>
+                <th className="text-center" scope="col">
+                  Account Balance
                 </th>
               </tr>
             </thead>

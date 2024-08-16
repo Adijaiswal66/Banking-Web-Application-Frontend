@@ -6,7 +6,12 @@ import { Bounce, toast } from "react-toastify";
 import Base from "./Base";
 
 function WithdrawMoney() {
-  const { getCurrentUserDetail, user, update } = useContext(NoteContext);
+  const { getCurrentUserDetail, update, userList } = useContext(NoteContext);
+
+  const [transferdata, setTransferData] = useState({
+    toAccountNumber: "",
+    transferredAmount: "",
+  });
 
   const handleChange = (event, field) => {
     let actualValue = event.target.value;
@@ -16,24 +21,19 @@ function WithdrawMoney() {
     });
   };
 
-  const handleResetButton = (e) => {
+  const handleResetButton = () => {
     setTransferData({
-      toAccountNumber: " ",
+      toAccountNumber: "",
       transferredAmount: "",
     });
   };
-
-  const [transferdata, setTransferData] = useState({
-    toAccountNumber: " ",
-    transferredAmount: "",
-  });
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
     if (
-      transferdata.transferredAmount.trim === "" ||
-      transferdata.toAccountNumber.trim === ""
+      transferdata.transferredAmount.trim() === "" ||
+      transferdata.toAccountNumber.trim() === ""
     ) {
       toast.error("Please fill up all the fields before submitting", {
         position: "bottom-center",
@@ -48,28 +48,80 @@ function WithdrawMoney() {
       });
       return;
     }
+
     withdrawMoneyFromUser();
   };
 
-  const withdrawMoneyFromUser = async (accountNumber) => {
+  const withdrawMoneyFromUser = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${
       getCurrentUserDetail().token
     }`;
-    await axios
-      .post(
-        `${base_url}/withdraw/${
-          getCurrentUserDetail().user.userId
-        }?transferredAmount=${transferdata.transferredAmount.trim()}  `,
-        transferdata
-      )
-      .then((response) => {
-        let data = response.data;
-        console.log(response);
-        console.log(data);
-        setTransferData(data);
 
-        if (data !== "Insufficient balance") {
-          toast.success(data, {
+    let foundUserId = null;
+
+    if (userList.length === 0) {
+      console.log("No users found");
+      return;
+    }
+
+    for (let i = 0; i < userList.length; i++) {
+      // console.log(`Checking user: ${userList[i].accountNumber}`);
+      if (
+        transferdata.toAccountNumber.trim() ===
+        String(userList[i].accountNumber)
+      ) {
+        foundUserId = userList[i].userId;
+        break;
+      }
+    }
+
+    if (foundUserId) {
+      // console.log("User ID found: " + foundUserId);
+      await axios
+        .post(
+          `${base_url}/transactions/withdraw/${foundUserId}?transferredAmount=${transferdata.transferredAmount.trim()}`,
+          transferdata
+        )
+        .then((response) => {
+          let data = response.data;
+          console.log(data);
+          setTransferData(data);
+
+          if (data !== "Insufficient balance") {
+            toast.success(data, {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
+            handleResetButton();
+            update();
+            return;
+          }
+          if (data === "Insufficient balance") {
+            toast.error("Insufficient balance", {
+              position: "bottom-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
+            return;
+          }
+        })
+        .catch((error) => {
+          let data = error.response.data;
+          console.log(data);
+          toast.error(data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: false,
@@ -80,47 +132,22 @@ function WithdrawMoney() {
             theme: "light",
             transition: Bounce,
           });
-          handleResetButton();
-          // setUser(user);
-          // console.log(user.user.availableBalance);
-          return;
-        }
-        if (data === "Insufficient balance") {
-          toast.error("Insufficient balance", {
-            position: "botto  m-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
-          return;
-        }
-        update();
-      })
-      .catch((error) => {
-        console.log(error);
-        let data = error.response.data;
-        console.log(data);
-        // if (data === "Insufficient balance") {
-        toast.error(data, {
-          position: "botto  m-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
         });
-        return;
-        // }
+    } else {
+      toast.error("Account number not found", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
       });
+    }
   };
+
   return (
     <>
       <Base>

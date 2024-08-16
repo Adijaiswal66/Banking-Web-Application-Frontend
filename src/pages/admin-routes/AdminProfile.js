@@ -73,14 +73,14 @@ function AdminProfile() {
               </Link>
             </div>
             <div className="col-md-4">
-              <Link to="/admin/withdraw-money" >
-              <Button
-                variant="contained"
-                startIcon={<CreditScoreIcon />}
-                fullWidth
-              >
-                Withdraw money
-              </Button>
+              <Link to="/admin/withdraw-money">
+                <Button
+                  variant="contained"
+                  startIcon={<CreditScoreIcon />}
+                  fullWidth
+                >
+                  Withdraw money
+                </Button>
               </Link>
             </div>
             <div className="col-md-4">
@@ -95,18 +95,22 @@ function AdminProfile() {
           </div>
           <div className="row">
             <div className="col-md-4">
-              <Button
-                variant="contained"
-                startIcon={<AssignmentIndIcon />}
-                fullWidth
-              >
-                Open account for customers
-              </Button>
+              <Link to="/signup-customer">
+                <Button
+                  variant="contained"
+                  startIcon={<AssignmentIndIcon />}
+                  fullWidth
+                >
+                  Open account for customers
+                </Button>
+              </Link>
             </div>
             <div className="col-md-4">
-              <Button variant="contained" startIcon={<MoneyIcon />} fullWidth>
-                Balance Inquiry
-              </Button>
+              <Link to="/admin/balance-enquiry">
+                <Button variant="contained" startIcon={<MoneyIcon />} fullWidth>
+                  Balance Inquiry
+                </Button>
+              </Link>
             </div>
             <div className="col-md-4">
               <Button

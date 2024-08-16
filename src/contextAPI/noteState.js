@@ -4,19 +4,21 @@ import { base_url } from "../services/Helper";
 import NoteContext from "./noteContext";
 const NoteState = (props) => {
   const [user, setUser] = useState([]);
+  const [userList, setUserList] = useState([]);
 
   useEffect(() => {
     const currentUser = getCurrentUserDetail();
     if (currentUser !== undefined || !user) {
       getuserbyid();
+      getAllCustomer();
     }
   }, []);
-  
 
   const update = () => {
     setTimeout(() => {
       getCurrentUserDetail();
       getuserbyid();
+      getAllCustomer();
     }, 1000);
   };
 
@@ -58,6 +60,9 @@ const NoteState = (props) => {
   };
 
   const getuserbyid = async () => {
+    if (getCurrentUserDetail() === undefined) {
+      return;
+    }
     axios.defaults.headers.common["Authorization"] = `Bearer ${
       getCurrentUserDetail().token
     }`;
@@ -68,6 +73,25 @@ const NoteState = (props) => {
         let data = response.data;
         // console.log("user inside getUSerbyId: " + JSON.stringify(user));
         setUser(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getAllCustomer = async () => {
+    if (getCurrentUserDetail() === undefined) {
+      return;
+    }
+    axios.defaults.headers.common["Authorization"] = `Bearer ${
+      getCurrentUserDetail().token
+    }`;
+
+    await axios
+      .get(`${base_url}/user/admin/customers`)
+      .then((response) => {
+        let data = response.data;
+        setUserList(data);
       })
       .catch((error) => {
         console.log(error);
@@ -89,6 +113,7 @@ const NoteState = (props) => {
         update,
         isAdmin,
         isCustomer,
+        userList,
       }}
     >
       {props.children}

@@ -174,6 +174,10 @@ function Navbar() {
     ? "/admin/admin-profile"
     : "/customer/customer-profile";
 
+  const transactionUrl = isAdmin
+    ? "/admin/all-transactions"
+    : "/customer/transactions";
+
   if (user || getCurrentUserDetail !== undefined) {
     return (
       <div>
@@ -224,8 +228,9 @@ function Navbar() {
                     </Link>
                   </li>
                 )}
+
                 <li className="nav-item">
-                  <Link className="nav-link" to="/customer/transactions">
+                  <Link className="nav-link" to={transactionUrl}>
                     Transactions
                   </Link>
                 </li>

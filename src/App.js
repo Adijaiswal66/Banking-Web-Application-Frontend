@@ -17,6 +17,8 @@ import AdminProfile from "./pages/admin-routes/AdminProfile";
 import TransferMoney from "./components/TransferMoney";
 import AdminDashboard from "./components/AdminDashboard";
 import WithdrawMoney from "./components/WithdrawMoney";
+import BalanceEnquiry from "./components/BalanceEnquiry";
+import AllTransactionDetails from "./components/AllTransactionDetails";
 function App() {
   return (
     <NoteState>
@@ -48,9 +50,11 @@ function App() {
           >
             <Route path="admin-profile" element={<AdminProfile />} />
             <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="all-transactions" element={<AllTransactionDetails />} />
             <Route path="edit-profile" element={<EditCustomerProfile />} />
             <Route path="transfer-money" element={<TransferMoney />} />
             <Route path="withdraw-money" element={<WithdrawMoney />} />
+            <Route path="balance-enquiry" element={<BalanceEnquiry />} />
 
             <Route path="" element={<AdminPage />} />
           </Route>
