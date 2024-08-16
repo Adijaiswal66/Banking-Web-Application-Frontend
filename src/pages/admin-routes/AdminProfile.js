@@ -84,13 +84,15 @@ function AdminProfile() {
               </Link>
             </div>
             <div className="col-md-4">
-              <Button
-                variant="contained"
-                startIcon={<MonetizationOnIcon />}
-                fullWidth
-              >
-                Deposit money
-              </Button>
+              <Link to="/admin/deposit-money">
+                <Button
+                  variant="contained"
+                  startIcon={<MonetizationOnIcon />}
+                  fullWidth
+                >
+                  Deposit money
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="row">
