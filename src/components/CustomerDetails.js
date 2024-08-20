@@ -157,12 +157,19 @@ const CustomerDetails = () => {
   return (
     <>
       <div className="container mt-3">
-        <div className="row">
+        <div className="row mt-4">
           <div className="col-md-6">
-            <div className="card">
+            <div
+              className="card"
+              style={{
+                backgroundColor: "lightsteelblue",
+                borderRadius: "8px",
+                border: "none",
+              }}
+            >
               <div className="card-body">
                 <h6
-                  className="card-title text-center"
+                  className="card-ti  tle text-center"
                   style={{ fontWeight: "bold", fontSize: "2rem" }}
                 >
                   Hi, {user.firstName} {user.lastName}
@@ -193,7 +200,14 @@ const CustomerDetails = () => {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="card">
+            <div
+              className="card"
+              style={{
+                backgroundColor: "lightsteelblue",
+                borderRadius: "8px",
+                border: "none",
+              }}
+            >
               <div className="card-body">
                 <h6
                   className="card-title text-center"
@@ -216,18 +230,27 @@ const CustomerDetails = () => {
                   <div className="row my-4 text-center">
                     <div className="col-md-6 text-center">
                       <Link to="/customer/edit-profile">
-                        <button type="button" className="btn btn btn-info ">
+                        <button
+                          type="button"
+                          className="btn btn btn-info "
+                          style={{ backgroundColor: "cornflowerblue",fontWeight:'bold'}}
+                        >
                           Update Profile{" "}
-                          <EditNoteIcon style={{ marginTop: "-3px" }} />
+                          <EditNoteIcon
+                            style={{
+                              marginTop: "-3px",
+                            }}
+                          />
                         </button>
                       </Link>
                     </div>
                     <div className="col-md-6 text-center">
                       <button
                         type="button"
-                        className="btn btn btn-info "
+                        className="btn btn-info "
                         data-bs-toggle="modal"
                         data-bs-target="#exampleModal"
+                        style={{ backgroundColor: "cornflowerblue",fontWeight:'bold' }}
                       >
                         Transfer Money{" "}
                         <CurrencyExchangeIcon style={{ marginTop: "-3px" }} />

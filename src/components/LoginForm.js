@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import NoteContext from "../contextAPI/noteContext";
 import { loginUser } from "../services/user-service";
 import Navbar from "./Navbar";
+import bgImage2 from "../img/bgImage2.jpg";
+import Base from "./Base";
 
 function LoginForm() {
   const { doLogin, isAdmin, isCustomer, isLoggedIn } = useContext(NoteContext);
@@ -135,12 +137,22 @@ function LoginForm() {
       setType("password");
     }
   };
+  const style = {
+    backgroundImage: `url(${bgImage2})`,
+    backgroundSize: "cover", // Adjust as needed
+    backgroundPosition: "center", // Adjust as needed
+    height: "100vh", // Adjust as needed
+    width: "100%", // Adjust as needed
+  };
 
   return (
     <>
-      <Navbar />
-      <div className="">
-        <form style={{ width: "22rem", paddingTop: "5rem" }} className="m-auto">
+      <div className="" style={style}>
+        <Navbar />
+        <form
+          style={{ width: "22rem", paddingTop: "5rem", fontStyle: "italic" }}
+          className="m-auto"
+        >
           <div className="mb-1">
             <label htmlFor="email" className="form-label d-flex mb-1">
               Enter email address

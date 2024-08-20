@@ -33,30 +33,66 @@ function TransactionsDetails() {
       });
   };
   return (
-    <Base>
-      <div>
+    <div style={{ backgroundColor: "antiquewhite" }}>
+      <Base>
         <div className="container">
-          <h3 className="my-3">Transaction History: </h3>
+          <h4
+            className="my-4 d-flex justify-content-center"
+            style={{
+              backgroundColor: "teal",
+              color: "whitesmoke",
+              borderRadius: "6px",
+              padding: "0.7rem",
+              width: "30%",
+              margin: "auto",
+            }}
+          >
+            Transaction History:{" "}
+          </h4>
           <div className="row">
-            <table className="table table-striped">
+            <table className="table table-responsive">
               <thead>
                 <tr>
-                  <th className="text-center" scope="col">
+                  <th
+                    className="text-center"
+                    scope="col"
+                    style={{ backgroundColor: "antiquewhite" }}
+                  >
                     Txn. id
                   </th>
-                  <th className="text-center" scope="col">
+                  <th
+                    className="text-center"
+                    scope="col"
+                    style={{ backgroundColor: "antiquewhite" }}
+                  >
                     Source Account Number
                   </th>
-                  <th className="text-center" scope="col">
+                  <th
+                    className="text-center"
+                    scope="col"
+                    style={{ backgroundColor: "antiquewhite" }}
+                  >
                     Target Account Number
                   </th>
-                  <th className="text-center" scope="col">
+                  <th
+                    className="text-center"
+                    scope="col"
+                    style={{ backgroundColor: "antiquewhite" }}
+                  >
                     Transferred Amount
                   </th>
-                  <th className="text-center" scope="col">
+                  <th
+                    className="text-center"
+                    scope="col"
+                    style={{ backgroundColor: "antiquewhite" }}
+                  >
                     Transaction Date & Time
                   </th>
-                  <th className="text-center" scope="col">
+                  <th
+                    className="text-center"
+                    scope="col"
+                    style={{ backgroundColor: "antiquewhite" }}
+                  >
                     Transaction Type
                   </th>
                 </tr>
@@ -67,8 +103,8 @@ function TransactionsDetails() {
             </table>
           </div>
         </div>
-      </div>
-    </Base>
+      </Base>
+    </div>
   );
 }
 

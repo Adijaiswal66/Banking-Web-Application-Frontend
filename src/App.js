@@ -20,6 +20,7 @@ import WithdrawMoney from "./components/WithdrawMoney";
 import BalanceEnquiry from "./components/BalanceEnquiry";
 import AllTransactionDetails from "./components/AllTransactionDetails";
 import DepositMoney from "./components/DepositMoney";
+import Home from "./pages/Home";
 function App() {
   return (
     <NoteState>
@@ -27,8 +28,8 @@ function App() {
         <ToastContainer />
         <Routes>
           {/* Public routes */}
-          <Route path="/" element={<Base />} />
-          <Route path="/home" element={<Base />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup-customer" element={<SignupFormForCustomer />} />
           <Route path="/signup-admin" element={<SignupFormForAdmin />} />

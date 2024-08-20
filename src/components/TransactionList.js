@@ -34,7 +34,11 @@ function TransactionList({ transaction }) {
             key={transactionId}
             className={tableColorChanger(transaction.type)}
           >
-            <th className="text-center" scope="row">
+            <th
+              className="text-center"
+              scope="row"
+              style={{ backgroundColor: "cadetblue", borderRadius: "4px" }}
+            >
               {transactionId}
             </th>
             <td className="text-center">{fromAccountNumber}</td>

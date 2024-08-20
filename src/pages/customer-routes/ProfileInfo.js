@@ -4,13 +4,14 @@ import BeneficiaryDetails from "../../components/BeneficiaryDetails";
 import CustomerDetails from "../../components/CustomerDetails";
 
 function ProfileInfo() {
+
   return (
-    <Base>
-      <div>
+    <div style={{backgroundColor:"antiquewhite"}}>
+      <Base>
         <CustomerDetails />
         <BeneficiaryDetails />
-      </div>
-    </Base>
+      </Base>
+    </div>
   );
 }
 

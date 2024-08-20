@@ -40,11 +40,21 @@ function Navbar() {
       });
     });
   };
+  const navbarStyle = {
+    backgroundColor: "rgba(255, 255, 255, 0.3)", // Semi-transparent white
+    backdropFilter: "blur(10px)", // Blur effect for the background
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.3)", // Optional shadow for better visibility
+  };
 
-  // Check if the user has the 'ROLE_ADMIN' role
+  // const linkStyle = {
+  //   color: "black", // White text
+  //   fontWeight: "500", // Medium weight for a professional look
+  //   fontFamily: "'Roboto', sans-serif", // Professional font family
+  // };
 
-  // console.log("user in Navbar: " + JSON.stringify(user));
-  // console.log("getCurrentUserDetail in Navbar: " + JSON.stringify(getCurrentUserDetail()));
+  // const hoverStyle = {
+  //   color: "#1976d2", // Highlight color on hover
+  // };
 
   if (
     !user ||
@@ -54,7 +64,7 @@ function Navbar() {
   ) {
     return (
       <div>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-lg" style={navbarStyle}>
           <div className="container-fluid">
             <Link className="navbar-brand" to="/home">
               ApnaBank
@@ -91,81 +101,73 @@ function Navbar() {
 
               <form className="d-flex" role="search">
                 <Link
-                  className="btn btn-outline-success mx-2 "
+                  className="btn btn-sm btn-success mx-2 "
                   type="submit"
                   to="/login"
                   onClick={handleLoginButton}
                 >
                   Login
                   <LoginOutlinedIcon
-                    style={{ marginLeft: "3px", marginTop: "-5px" }}
+                    style={{ marginLeft: "3px" }}
                   />
                 </Link>
 
-                {/* <Link
-                  className="btn btn-outline-success"
-                  type="submit"
-                  to="/signup"
+                <button
+                  type="button"
+                  className="btn btn-sm btn-success"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
                 >
                   Signup
-                </Link> */}
-                <Link>
-                  <button
-                    type="button"
-                    className="btn btn-outline-success"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  >
-                    Signup
-                  </button>
-                </Link>
-
-                <div
-                  className="modal fade"
-                  id="exampleModal"
-                  tabIndex="-1"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
-                >
-                  <div className="modal-dialog " style={{ marginTop: "10rem" }}>
-                    <div className="modal-content">
-                      <div className="modal-header"></div>
-
-                      <div className="row my-4 text-center">
-                        <div className="col-md-6 text-center">
-                          <Link to="/signup-admin">
-                            <button
-                              type="button"
-                              className="btn btn btn-info"
-                              data-bs-toggle="modal"
-                              data-bs-target="#exampleModal"
-                            >
-                              Sign in as Admin{" "}
-                            </button>
-                          </Link>
-                        </div>
-                        <div className="col-md-6 text-center">
-                          <Link to="/signup-customer">
-                            <button
-                              type="button"
-                              className="btn btn btn-info "
-                              data-bs-toggle="modal"
-                              data-bs-target="#exampleModal"
-                            >
-                              Sign in as Customer{" "}
-                            </button>
-                          </Link>
-                        </div>
-                      </div>
-
-                      <div className="modal-footer"></div>
-                    </div>
-                  </div>
-                </div>
+                </button>
               </form>
             </div>
           </div>
         </nav>
+        <div
+          className="modal fade"
+          id="exampleModal"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog" style={{ marginTop: "10rem" }}>
+            <div className="modal-content">
+              <div className="modal-header"></div>
+              <div
+                className="modal-body"
+                style={{ backgroundColor: "#527f7c" }}
+              >
+                {/* Modal Body Content */}
+                <div className="row my-4 text-center">
+                  <div className="col-md-6 text-center">
+                    <Link to="/signup-admin">
+                      <button
+                        type="button"
+                        className="btn btn-warning"
+                        data-bs-dismiss="modal"
+                      >
+                        Signup as Admin
+                      </button>
+                    </Link>
+                  </div>
+                  <div className="col-md-6 text-center">
+                    <Link to="/signup-customer">
+                      <button
+                        type="button"
+                        className="btn btn-warning"
+                        data-bs-dismiss="modal"
+                      >
+                        Signup as Customer
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer"></div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -181,7 +183,7 @@ function Navbar() {
   if (user || getCurrentUserDetail !== undefined) {
     return (
       <div>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-lg" style={navbarStyle}>
           <div className="container-fluid">
             <Link className="navbar-brand" to="/home">
               ApnaBank

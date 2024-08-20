@@ -9,7 +9,7 @@ function BeneficiaryDetails() {
   const { getCurrentUserDetail, update } = useContext(NoteContext);
   update();
   const [beneficiary, setBeneficiary] = useState([]);
-  
+
   useEffect(() => {
     getAllBeneficiary();
   }, []);
@@ -30,31 +30,66 @@ function BeneficiaryDetails() {
       });
   };
 
-  
   return (
     <div>
       <div className="container">
-        <h3 className="my-3">Your Beneficiaries: </h3>
+        <h4
+          className="mt-5 mb-4 d-flex justify-content-center"
+          style={{
+            backgroundColor: "teal",
+            color: "whitesmoke",
+            borderRadius: "6px",
+            padding: "0.7rem",
+            width: "30%",
+            margin: "auto",
+          }}
+        >
+          Your Beneficiaries{" "}
+        </h4>
         <div className="row">
-          <table className="table table-striped">
+          <table className="table table-hover">
             <thead>
               <tr>
-                <th className="text-center" scope="col">
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "antiquewhite" }}
+                >
                   id
                 </th>
-                <th className="text-center" scope="col">
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "antiquewhite" }}
+                >
                   First Name
                 </th>
-                <th className="text-center" scope="col">
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "antiquewhite" }}
+                >
                   Last Name
                 </th>
-                <th className="text-center" scope="col">
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "antiquewhite" }}
+                >
                   Account Number
                 </th>
-                <th className="text-center" scope="col">
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "antiquewhite" }}
+                >
                   Bank Name
                 </th>
-                <th className="text-center" scope="col">
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "antiquewhite" }}
+                >
                   Transfer Limit
                 </th>
               </tr>

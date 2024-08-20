@@ -19,7 +19,7 @@ const BeneficiaryList = ({ beneficiary }) => {
         
         return (
           <tr key={beneficiaryId}>
-            <th className="text-center" scope="row">
+            <th className="text-center" scope="row" style={{backgroundColor:'cadetblue',borderRadius:"4px"}}>
               {count}
             </th>
             <td className="text-center">{firstName}</td>
