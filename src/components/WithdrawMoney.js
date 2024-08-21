@@ -4,6 +4,7 @@ import NoteContext from "../contextAPI/noteContext";
 import { base_url } from "../services/Helper";
 import { Bounce, toast } from "react-toastify";
 import Base from "./Base";
+import bgImage7 from "../img/bgImage7.jpg";
 
 function WithdrawMoney() {
   const { getCurrentUserDetail, update, userList } = useContext(NoteContext);
@@ -147,14 +148,31 @@ function WithdrawMoney() {
       });
     }
   };
+  const style = {
+    backgroundImage: `url(${bgImage7})`,
+    backgroundSize: "cover", // Adjust as needed
+    backgroundPosition: "center", // Adjust as needed
+    height: "100vh", // Adjust as needed
+    width: "100%", // Adjust as needed
+  };
 
   return (
-    <>
+    <div className="" style={style}>
       <Base>
-        <div className="container">
-          <h3 className="text-center" style={{ margin: "3rem" }}>
+        <div style={{ marginTop: "6rem", marginLeft: "30rem" }}>
+          <h4
+            className="text-center my-4"
+            style={{
+              backgroundColor: "steelblue",
+              color: "whitesmoke",
+              borderRadius: "6px",
+              padding: "0.7rem",
+              width: "50%",
+              margin: "auto",
+            }}
+          >
             Enter details to withdraw money
-          </h3>
+          </h4>
           <form style={{ width: "22rem" }} className="m-auto">
             <div className="my-3">
               <label
@@ -188,7 +206,7 @@ function WithdrawMoney() {
               />
             </div>
 
-            <div className="buttons d-flex justify-content-evenly mt-3">
+            <div className="buttons d-flex justify-content-evenly mt-4">
               <button
                 type="button"
                 className="btn btn-sm btn-success"
@@ -208,7 +226,7 @@ function WithdrawMoney() {
           </form>
         </div>
       </Base>
-    </>
+    </div>
   );
 }
 

@@ -4,6 +4,7 @@ import { Bounce, toast } from "react-toastify";
 import { base_url } from "../services/Helper";
 import Base from "./Base";
 import NoteContext from "../contextAPI/noteContext";
+import bgImage4 from "../img/bgImage4.jpg";
 
 function EditCustomerProfile() {
   const { getCurrentUserDetail, user } = useContext(NoteContext);
@@ -160,98 +161,108 @@ function EditCustomerProfile() {
         }
       });
   };
+  const style = {
+    backgroundImage: `url(${bgImage4})`,
+    backgroundSize: "cover", // Ensures the image covers the entire container
+    backgroundRepeat: "no-repeat", // Prevents repeating the image
+    backgroundPosition: "center", // Centers the image
+    height: "100vh", // Full viewport height
+    width: "100%", // Full viewport width
+  };
   return (
-    <Base>
-      <div className="">
-        <form style={{ width: "22rem" }} className="m-auto">
-          <div className="mb-1">
-            <label htmlFor="firstName" className="form-label d-flex mb-1">
-              Enter first name
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              className="form-control"
-              value={updatedData.firstName}
-              onChange={(e) => handleChange(e, "firstName")}
-            />
-          </div>
-
-          <div className="mb-1">
-            <label htmlFor="lastName" className="form-label d-flex mb-1">
-              Enter last name
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              className="form-control"
-              value={updatedData.lastName}
-              onChange={(e) => handleChange(e, "lastName")}
-            />
-          </div>
-
-          <div className="mb-1">
-            <label htmlFor="phoneNumber" className="form-label d-flex mb-1">
-              Enter contact number
-            </label>
-            <input
-              type="text"
-              id="phoneNumber"
-              className="form-control"
-              value={updatedData.phoneNumber}
-              onChange={(e) => handleChange(e, "phoneNumber")}
-            />
-          </div>
-
-          <div className="mb-1">
-            <label htmlFor="address" className="form-label d-flex mb-1">
-              Enter address
-            </label>
-            <input
-              type="text"
-              id="address"
-              className="form-control"
-              value={updatedData.address}
-              onChange={(e) => handleChange(e, "address")}
-            />
-          </div>
-
-          <div className="mb-1">
-            <label htmlFor="userEmail" className="form-label d-flex mb-1">
-              Enter email address
-            </label>
-            <input
-              type="userEmail"
-              id="userEmail"
-              className="form-control"
-              value={getCurrentUserDetail().user.userEmail}
-              disabled
-            />
-            <div id="userEmail" className="form-text d-flex">
-              We'll never share your email with anyone else.
+    <div className="" style={style}>
+      <Base>
+        <div style={{ marginTop: "3rem",marginLeft:"20rem" }}>
+          <form style={{ width: "22rem" }} className="m-auto">
+            <div className="mb-1">
+              <label htmlFor="firstName" className="form-label d-flex mb-1">
+                Enter first name
+              </label>
+              <input
+                type="text"
+                id="firstName"
+                className="form-control"
+                value={updatedData.firstName}
+                onChange={(e) => handleChange(e, "firstName")}
+              />
             </div>
-          </div>
 
-          <div className="buttons d-flex justify-content-evenly mt-3">
-            <button
-              type="button"
-              className="btn btn-sm btn-success"
-              style={{ marginRight: "-5rem" }}
-              onClick={handleFormSubmit}
-            >
-              Update
-            </button>
-            <button
-              type="reset"
-              onClick={handleResetButton}
-              className="btn btn-sm btn-dark"
-            >
-              Reset
-            </button>
-          </div>
-        </form>
-      </div>
-    </Base>
+            <div className="mb-1">
+              <label htmlFor="lastName" className="form-label d-flex mb-1">
+                Enter last name
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                className="form-control"
+                value={updatedData.lastName}
+                onChange={(e) => handleChange(e, "lastName")}
+              />
+            </div>
+
+            <div className="mb-1">
+              <label htmlFor="phoneNumber" className="form-label d-flex mb-1">
+                Enter contact number
+              </label>
+              <input
+                type="text"
+                id="phoneNumber"
+                className="form-control"
+                value={updatedData.phoneNumber}
+                onChange={(e) => handleChange(e, "phoneNumber")}
+              />
+            </div>
+
+            <div className="mb-1">
+              <label htmlFor="address" className="form-label d-flex mb-1">
+                Enter address
+              </label>
+              <input
+                type="text"
+                id="address"
+                className="form-control"
+                value={updatedData.address}
+                onChange={(e) => handleChange(e, "address")}
+              />
+            </div>
+
+            <div className="mb-1">
+              <label htmlFor="userEmail" className="form-label d-flex mb-1">
+                Enter email address
+              </label>
+              <input
+                type="userEmail"
+                id="userEmail"
+                className="form-control"
+                value={getCurrentUserDetail().user.userEmail}
+                disabled
+              />
+              <div id="userEmail" className="form-text d-flex">
+                We'll never share your email with anyone else.
+              </div>
+            </div>
+
+            <div className="buttons d-flex justify-content-evenly mt-3">
+              <button
+                type="button"
+                className="btn btn-sm btn-success"
+                style={{ marginRight: "-5rem" }}
+                onClick={handleFormSubmit}
+              >
+                Update
+              </button>
+              <button
+                type="reset"
+                onClick={handleResetButton}
+                className="btn btn-sm btn-dark"
+              >
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+      </Base>
+    </div>
   );
 }
 

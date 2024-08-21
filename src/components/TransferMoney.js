@@ -4,6 +4,7 @@ import NoteContext from "../contextAPI/noteContext";
 import { base_url } from "../services/Helper";
 import { Bounce, toast } from "react-toastify";
 import Base from "./Base";
+import bgImage6 from "../img/bgImage6.jpg";
 
 function TransferMoney() {
   const { getCurrentUserDetail, user, update } = useContext(NoteContext);
@@ -154,13 +155,31 @@ function TransferMoney() {
         // }
       });
   };
+
+  const style = {
+    backgroundImage: `url(${bgImage6})`,
+    backgroundSize: "cover", // Adjust as needed
+    backgroundPosition: "center", // Adjust as needed
+    height: "100vh", // Adjust as needed
+    width: "100%", // Adjust as needed
+  };
   return (
-    <>
+    <div className="" style={style}>
       <Base>
-        <div className="container">
-          <h3 className="text-center" style={{ margin: "3rem" }}>
+        <div style={{ marginTop: "5rem", marginLeft: "42rem" }}>
+          <h4
+            className="text-center mb-4 "
+            style={{
+              backgroundColor: "steelblue",
+              color: "whitesmoke",
+              borderRadius: "6px",
+              padding: "0.7rem",
+              width: "60%",
+              margin: "auto",
+            }}
+          >
             Enter details to transfer money
-          </h3>
+          </h4>
           <form style={{ width: "22rem" }} className="m-auto">
             <div className="mb-1">
               <label
@@ -230,7 +249,7 @@ function TransferMoney() {
           </form>
         </div>
       </Base>
-    </>
+    </div>
   );
 }
 

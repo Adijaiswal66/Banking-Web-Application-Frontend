@@ -17,12 +17,20 @@ function AdminProfile() {
   const { getCurrentUserDetail, user, update } = useContext(NoteContext);
 
   return (
-    <Base>
-      <div>
+    <div style={{ height: "100vh", backgroundColor: "antiquewhite" }}>
+      <Base>
         <div className="container mt-5 d-flex justify-content-evenly">
           <div className="row">
             <div className="col-md-12">
-              <div className="card" style={{ width: "30em" }}>
+              <div
+                className="card"
+                style={{
+                  width: "30rem",
+                  backgroundColor: "lightsteelblue",
+                  borderRadius: "8px",
+                  border: "none",
+                }}
+              >
                 <div className="card-body">
                   <h6
                     className="card-title text-center"
@@ -96,8 +104,11 @@ function AdminProfile() {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4">
-              <Link to="/signup-customer">
+            <div className="col-md-4" >
+              <Link
+                to="/signup-customer"
+                
+              >
                 <Button
                   variant="contained"
                   startIcon={<AssignmentIndIcon />}
@@ -125,8 +136,8 @@ function AdminProfile() {
             </div>
           </div>
         </div>
-      </div>
-    </Base>
+      </Base>
+    </div>
   );
 }
 

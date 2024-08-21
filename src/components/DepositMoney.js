@@ -4,6 +4,7 @@ import NoteContext from "../contextAPI/noteContext";
 import { Bounce, toast } from "react-toastify";
 import axios from "axios";
 import { base_url } from "../services/Helper";
+import bgImage8 from "../img/bgImage8.jpg";
 
 function DepositMoney() {
   const { getCurrentUserDetail, update, userList } = useContext(NoteContext);
@@ -146,13 +147,31 @@ function DepositMoney() {
       });
     }
   };
+  const style = {
+    backgroundImage: `url(${bgImage8})`,
+    backgroundSize: "cover", // Adjust as needed
+    backgroundPosition: "center", // Adjust as needed
+    height: "100vh", // Adjust as needed
+    width: "100%", // Adjust as needed
+  };
+
   return (
-    <>
+    <div style={style}>
       <Base>
-        <div className="container">
-          <h3 className="text-center" style={{ margin: "3rem" }}>
+        <div className="" style={{ marginTop: "6rem", marginLeft: "35rem" }}>
+          <h4
+            className="text-center my-5"
+            style={{
+              backgroundColor: "steelblue",
+              color: "whitesmoke",
+              borderRadius: "6px",
+              padding: "0.7rem",
+              width: "50%",
+              margin: "auto",
+            }}
+          >
             Enter details to deposit money
-          </h3>
+          </h4>
           <form style={{ width: "22rem" }} className="m-auto">
             <div className="my-3">
               <label
@@ -186,7 +205,7 @@ function DepositMoney() {
               />
             </div>
 
-            <div className="buttons d-flex justify-content-evenly mt-3">
+            <div className="buttons d-flex justify-content-evenly mt-4">
               <button
                 type="button"
                 className="btn btn-sm btn-success"
@@ -206,7 +225,7 @@ function DepositMoney() {
           </form>
         </div>
       </Base>
-    </>
+    </div>
   );
 }
 

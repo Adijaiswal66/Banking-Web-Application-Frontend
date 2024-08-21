@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import bgImage from "../img/bgImage.jpg";
 import bgImage1 from "../img/bgImage1.jpg";
 
 function Home() {

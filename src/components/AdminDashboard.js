@@ -5,17 +5,16 @@ import AllUserDetails from "./AllUserDetails";
 function AdminDashboard() {
   const { getCurrentUserDetail, user, update } = useContext(NoteContext);
 
-  useEffect(()=>{
-    
-    <AllUserDetails />
-  },[])
+  useEffect(() => {
+    <AllUserDetails />;
+  }, []);
 
   return (
-    <Base>
-      <div>
+    <div style={{height:"100vh", backgroundColor: "antiquewhite" }}>
+      <Base>
         <AllUserDetails />
-      </div>
-    </Base>
+      </Base>
+    </div>
   );
 }
 

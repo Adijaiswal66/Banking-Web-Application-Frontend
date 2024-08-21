@@ -14,13 +14,17 @@ function AllUserList({ userList }) {
           phoneNumber,
           address,
           accountNumber,
-          availableBalance
+          availableBalance,
         } = users;
         count += 1;
 
         return (
           <tr key={userId}>
-            <th className="text-center" scope="row">
+            <th
+              className="text-center"
+              scope="row"
+              style={{ backgroundColor: "cadetblue", borderRadius: "4px" }}
+            >
               {count}
             </th>
             <td className="text-center">{firstName}</td>

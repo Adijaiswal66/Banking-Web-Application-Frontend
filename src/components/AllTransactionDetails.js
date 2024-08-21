@@ -32,7 +32,19 @@ function AllTransactionDetails() {
     <Base>
       <div>
         <div className="container">
-          <h3 className="my-3">Transaction History: </h3>
+          <h4
+            className="mt-5 mb-4 d-flex justify-content-center"
+            style={{
+              backgroundColor: "teal",
+              color: "whitesmoke",
+              borderRadius: "6px",
+              padding: "0.7rem",
+              width: "30%",
+              margin: "auto",
+            }}
+          >
+            Transaction History{" "}
+          </h4>
           <div className="row">
             <table className="table table-striped">
               <thead>
